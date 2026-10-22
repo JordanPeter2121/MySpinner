@@ -65,11 +65,7 @@ body {
 .mobile-menu-btn { display: none; flex-direction: column; gap: 5px; background: transparent; border: none; padding: var(--space-sm); cursor: pointer; }
 .mobile-menu-btn span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all var(--transition-base); }
 
-.user-avatar {
-    width: 36px; height: 36px; border-radius: 50%; overflow: hidden; cursor: pointer;
-    border: 2px solid var(--primary); box-shadow: 0 2px 8px rgba(77, 150, 255, 0.3); flex-shrink: 0;
-}
-.user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+/* USER AVATAR STYLE DIHAPUS */
 
 .dropdown { position: relative; }
 .dropdown-menu {
@@ -347,36 +343,7 @@ body.dark-mode .results-list li { background: linear-gradient(135deg, #1a2a4a, #
 .auth-footer-text { text-align: center; font-size: var(--font-size-xs); color: var(--text-secondary); margin-top: var(--space-lg); }
 .auth-footer-text a { color: var(--primary); text-decoration: none; }
 
-.account-modal { display: flex; flex-direction: column; max-height: 85vh; overflow: hidden; }
-.account-header {
-    background: linear-gradient(135deg, var(--primary), var(--secondary)); padding: var(--space-xl) var(--space-lg) var(--space-lg);
-    text-align: center; color: white; position: relative; flex-shrink: 0;
-}
-.account-header .modal-close-x { background: rgba(255, 255, 255, 0.2); color: white; }
-.account-header .modal-close-x:hover { background: rgba(255, 255, 255, 0.3); }
-.account-photo { width: 70px; height: 70px; border-radius: 50%; border: 3px solid white; margin-bottom: var(--space-sm); object-fit: cover; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-.account-header h2 { font-size: var(--font-size-lg); margin-bottom: var(--space-xs); font-weight: 700; }
-.account-header p { opacity: 0.95; font-size: var(--font-size-xs); margin-bottom: var(--space-sm); word-break: break-all; }
-.account-badge { display: inline-block; background: rgba(255, 255, 255, 0.25); padding: var(--space-xs) var(--space-md); border-radius: var(--radius-full); font-size: var(--font-size-xs); font-weight: 700; }
-.account-body { flex: 1; overflow-y: auto; padding: var(--space-md); }
-.account-stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); padding-bottom: var(--space-md); border-bottom: 1px solid var(--border); margin-bottom: var(--space-md); }
-.stat { text-align: center; padding: var(--space-md); background: var(--border); border-radius: var(--radius-md); }
-.stat-num { font-size: var(--font-size-xl); font-weight: 900; color: var(--primary); }
-.stat-label { font-size: var(--font-size-xs); color: var(--text-secondary); margin-top: var(--space-xs); }
-.account-menu { display: flex; flex-direction: column; gap: var(--space-xs); max-height: 200px; overflow-y: auto; }
-.account-menu-item {
-    display: flex; align-items: center; justify-content: space-between; padding: var(--space-md); border-radius: var(--radius-sm);
-    cursor: pointer; font-weight: 700; color: var(--text); transition: background var(--transition-base); font-size: var(--font-size-sm);
-}
-.account-menu-item:hover { background: var(--border); }
-.account-menu-item span:last-child { color: var(--border); font-size: 1.2rem; }
-.account-footer { padding: var(--space-md); border-top: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
-.logout-btn {
-    width: 100%; padding: var(--space-md); background: #fff0f0; color: #d63031;
-    border: 2px solid #ffd0d0; border-radius: var(--radius-md); font-family: inherit;
-    font-weight: 700; font-size: var(--font-size-base); cursor: pointer; transition: all var(--transition-base);
-}
-.logout-btn:hover { background: #d63031; color: white; border-color: #d63031; }
+/* ACCOUNT MODAL STYLES DIHAPUS TOTAL */
 
 .preferences-modal { max-width: 420px; padding: 0; overflow: hidden; display: flex; flex-direction: column; max-height: 85vh; }
 .preferences-header { padding: var(--space-lg) var(--space-lg) var(--space-md); border-bottom: 1px solid var(--border); flex-shrink: 0; }

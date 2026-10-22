@@ -972,14 +972,14 @@ if (aboutModal) {
     });
 }
 
-// ===== AUTHENTICATION =====
+// ===== AUTHENTICATION LOGIC (Cleaned up) =====
+// Kita tetap import fungsi auth, tapi tidak lagi memanggil modal account atau handle avatar click.
+
 const moreBtn = document.getElementById("moreBtn");
 const dropdownMenu = document.getElementById("dropdownMenu");
-const myAccountBtn = document.getElementById("myAccountBtn");
 const mobileMenuBtn = document.getElementById("mobileMenuBtn");
 const mobileMenuOverlay = document.getElementById("mobileMenuOverlay");
 const mobileMenuClose = document.getElementById("mobileMenuClose");
-const mobileMyAccount = document.getElementById("mobileMyAccount");
 
 if (moreBtn) {
     moreBtn.addEventListener("click", (e) => {
@@ -1002,16 +1002,6 @@ if (mobileMenuOverlay) {
     mobileMenuOverlay.addEventListener("click", (e) => {
         if (e.target === mobileMenuOverlay) {
             mobileMenuOverlay.classList.remove("show");
-        }
-    });
-}
-if (mobileMyAccount) {
-    mobileMyAccount.addEventListener("click", () => {
-        mobileMenuOverlay.classList.remove("show");
-        if (currentUser) {
-            openAccountModal();
-        } else {
-            openAuthModal("login");
         }
     });
 }
@@ -1144,80 +1134,13 @@ function getFriendlyError(code) {
     return errors[code] || "An error occurred. Please try again!";
 }
 
-const accountModal = document.getElementById("accountModal");
-const closeAccount = document.getElementById("closeAccount");
-const userAvatar = document.getElementById("userAvatar");
-const userPhoto = document.getElementById("userPhoto");
-const logoutBtn = document.getElementById("logoutBtn");
-
-if (myAccountBtn) {
-    myAccountBtn.addEventListener("click", () => {
-        if (dropdownMenu) dropdownMenu.classList.remove("show");
-        if (currentUser) {
-            openAccountModal();
-        } else {
-            openAuthModal("login");
-        }
-    });
-}
-
-function openAccountModal() {
-    if (!currentUser) return;
-    document.getElementById("accountPhoto").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || currentUser.email || "User");
-    document.getElementById("accountName").textContent = currentUser.displayName || "User";
-    document.getElementById("accountEmail").textContent = currentUser.email;
-    
-    // Show provider type
-    const providerData = currentUser.providerData;
-    const isGoogle = providerData.some(p => p.providerId === 'google.com');
-    document.getElementById("accountProvider").textContent = isGoogle ? "Google Account" : "Email Account";
-    
-    accountModal.classList.add("show");
-}
-
-if (closeAccount) {
-    closeAccount.addEventListener("click", () => accountModal.classList.remove("show"));
-}
-if (accountModal) {
-    accountModal.addEventListener("click", (e) => {
-        if (e.target === accountModal) accountModal.classList.remove("show");
-    });
-}
-
-if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-        if (confirm("Are you sure you want to logout?")) {
-            try {
-                await signOut(auth);
-                accountModal.classList.remove("show");
-                showToast("Logged out successfully", "success");
-            } catch (error) {
-                console.error("Logout error:", error);
-                showToast("Failed to logout", "error");
-            }
-        }
-    });
-}
-
+// Fungsi check state auth tetap ada tapi tidak memicu UI apa pun selain menyimpan variable currentUser internal
 onAuthStateChanged(auth, (user) => {
     currentUser = user;
-    if (user) {
-        userAvatar.style.display = "block";
-        userPhoto.src = user.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.displayName || user.email || "U");
-        userPhoto.alt = user.displayName || "User";
-    } else {
-        userAvatar.style.display = "none";
-    }
+    // Karena fitur profile/account dihapus, kita tidak melakukan apa-apa dengan user object ini di UI.
 });
 
-if (userAvatar) {
-    userAvatar.addEventListener("click", () => {
-        if (currentUser) openAccountModal();
-        else openAuthModal("login");
-    });
-}
-
-// ===== NEW / SAVE / OPEN / SHARE BUTTONS =====
+// ===== BUTTON LISTENERS =====
 document.getElementById('btnNew').addEventListener('click', openNewWheelModal);
 document.getElementById('btnSave').addEventListener('click', openSaveModal);
 document.getElementById('btnOpen').addEventListener('click', openFilePicker);

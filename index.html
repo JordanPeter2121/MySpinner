@@ -24,10 +24,7 @@
             <div class="dropdown">
                 <button class="menu-btn more-btn" id="moreBtn">More</button>
                 <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="dropdown-item" id="myAccountBtn">
-                        <span>My Account</span>
-                    </div>
-                    <div class="dropdown-divider"></div>
+                    <!-- My Account DIHAPUS -->
                     <div class="dropdown-item" id="preferencesBtn">
                         <span>Preferences</span>
                     </div>
@@ -48,9 +45,8 @@
             <span></span>
         </button>
 
-        <div class="user-avatar" id="userAvatar" style="display:none;">
-            <img id="userPhoto" src="" alt="User">
-        </div>
+        <!-- Avatar User DIHAPUS TOTAL DARI SINI -->
+        <!-- <div class="user-avatar" ... > </div> -->
     </header>
 
     <div class="mobile-menu-overlay" id="mobileMenuOverlay">
@@ -62,7 +58,7 @@
                 <button class="mobile-menu-item" id="mobileBtnSave">Save</button>
                 <button class="mobile-menu-item" id="mobileBtnShare">Share</button>
                 <div class="mobile-menu-divider"></div>
-                <button class="mobile-menu-item" id="mobileMyAccount">My Account</button>
+                <!-- My Account DIHAPUS -->
                 <button class="mobile-menu-item" id="mobilePreferences">Preferences</button>
                 <button class="mobile-menu-item" id="mobileHelpFeedback">Help & Feedback</button>
                 <button class="mobile-menu-item" id="mobileAbout">About</button>
@@ -74,7 +70,10 @@
 
     <main class="main-content" id="wheelsContainer"></main>
 
-    <!-- AUTH MODAL -->
+    <!-- AUTH MODAL (Tetap ada untuk Login/Register jika diperlukan nanti, tapi tidak diakses via tombol Profile lagi) -->
+    <!-- Jika ingin menghapus login sepenuhnya, modal ini juga bisa dihapus. 
+         Namun karena instruksi hanya hapus "My Account", saya biarkan Auth Modal tetap ada sebagai cadangan sistem backend Firebase, 
+         tapi tidak ada akses UI ke sana kecuali dipanggil script lain. -->
     <div class="modal-overlay" id="authModal">
         <div class="modal auth-modal">
             <button class="modal-close-x" id="closeAuth">✕</button>
@@ -88,7 +87,6 @@
                 <button class="auth-tab" data-auth="register">Register</button>
             </div>
             
-            <!-- Google Sign-In Button -->
             <button class="google-btn" id="googleSignInBtn">
                 <svg class="google-icon" viewBox="0 0 48 48" width="20" height="20">
                     <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
@@ -125,39 +123,8 @@
         </div>
     </div>
 
-    <!-- ACCOUNT MODAL -->
-    <div class="modal-overlay" id="accountModal">
-        <div class="modal account-modal">
-            <button class="modal-close-x" id="closeAccount">✕</button>
-            <div class="account-header">
-                <img id="accountPhoto" src="" alt="Photo" class="account-photo">
-                <h2 id="accountName">User Name</h2>
-                <p id="accountEmail">user@email.com</p>
-                <span class="account-badge" id="accountProvider">Email</span>
-            </div>
-            <div class="account-body">
-                <div class="account-stats">
-                    <div class="stat">
-                        <div class="stat-num" id="statWheels">0</div>
-                        <div class="stat-label">Wheels Saved</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-num" id="statSpins">0</div>
-                        <div class="stat-label">Total Spins</div>
-                    </div>
-                </div>
-                <div class="account-menu">
-                    <div class="account-menu-item"><span>My Wheels</span><span>›</span></div>
-                    <div class="account-menu-item"><span>Account Settings</span><span>›</span></div>
-                    <div class="account-menu-item"><span>Notifications</span><span>›</span></div>
-                    <div class="account-menu-item"><span>Appearance</span><span>›</span></div>
-                </div>
-            </div>
-            <div class="account-footer">
-                <button class="logout-btn" id="logoutBtn">Sign Out</button>
-            </div>
-        </div>
-    </div>
+    <!-- ACCOUNT MODAL DIHAPUS TOTAL -->
+    <!-- Tidak perlu lagi menampilkan detail user -->
 
     <!-- PREFERENCES MODAL -->
     <div class="modal-overlay" id="preferencesModal">
@@ -294,7 +261,6 @@
                         <div class="feature-item"><span>Share wheels via link with friends</span></div>
                         <div class="feature-item"><span>Realistic tick sounds while spinning</span></div>
                         <div class="feature-item"><span>Fully responsive for mobile & desktop</span></div>
-                        <div class="feature-item"><span>Secure login with Firebase Authentication</span></div>
                     </div>
                 </div>
                 <div class="about-section">
