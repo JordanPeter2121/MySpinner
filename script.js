@@ -6,7 +6,9 @@ import {
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
-    updateProfile
+    updateProfile,
+    GoogleAuthProvider,
+    signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -20,6 +22,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 // ===== THEME COLORS =====
 const wheelThemes = {
@@ -496,6 +499,36 @@ function playWinSound() {
     });
 }
 
+// ===== GOOGLE SIGN-IN =====
+document.getElementById('googleSignInBtn').addEventListener('click', async () => {
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitLoader = document.getElementById('submitLoader');
+    
+    try {
+        submitBtn.disabled = true;
+        submitText.style.display = 'none';
+        submitLoader.style.display = 'block';
+        
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
+        
+        showToast(`Welcome ${user.displayName || user.email}!`, "success");
+        document.getElementById('authModal').classList.remove('show');
+    } catch (error) {
+        console.error("Google Sign-In Error:", error);
+        if (error.code === 'auth/popup-closed-by-user') {
+            // User closed popup, no error message needed
+        } else {
+            showToast("Google Sign-In failed. Please try again.", "error");
+        }
+    } finally {
+        submitBtn.disabled = false;
+        submitText.style.display = 'inline';
+        submitLoader.style.display = 'none';
+    }
+});
+
 // ===== SHARE FEATURE =====
 function generateShareLink() {
     const activeWheel = wheels.find(w => w.id === activeWheelId);
@@ -528,22 +561,16 @@ function loadWheelFromUrl() {
             const data = JSON.parse(jsonStr);
             
             if (data && Array.isArray(data.options) && data.options.length > 0) {
-                // Clear existing wheels
                 document.getElementById('wheelsContainer').innerHTML = '';
                 wheels = [];
                 wheelCounter = 0;
                 
-                // Apply theme from shared wheel
                 if (data.theme && wheelThemes[data.theme]) {
                     preferences.theme = data.theme;
                 }
                 
-                // Create wheel from shared data
                 createWheel(data.options, data.name || 'Shared Wheel');
-                
                 showToast("Wheel loaded from shared link!", "success");
-                
-                // Clean URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         } catch (error) {
@@ -603,7 +630,6 @@ document.getElementById('copyLinkBtn').addEventListener('click', async () => {
             copyBtn.classList.remove('copied');
         }, 2000);
     } catch (error) {
-        // Fallback
         input.select();
         document.execCommand('copy');
         copyBtn.textContent = 'Copied!';
@@ -1140,7 +1166,12 @@ function openAccountModal() {
     document.getElementById("accountPhoto").src = currentUser.photoURL || "https://ui-avatars.com/api/?name=" + encodeURIComponent(currentUser.displayName || currentUser.email || "User");
     document.getElementById("accountName").textContent = currentUser.displayName || "User";
     document.getElementById("accountEmail").textContent = currentUser.email;
-    document.getElementById("accountProvider").textContent = "Email Account";
+    
+    // Show provider type
+    const providerData = currentUser.providerData;
+    const isGoogle = providerData.some(p => p.providerId === 'google.com');
+    document.getElementById("accountProvider").textContent = isGoogle ? "Google Account" : "Email Account";
+    
     accountModal.classList.add("show");
 }
 
@@ -1159,8 +1190,10 @@ if (logoutBtn) {
             try {
                 await signOut(auth);
                 accountModal.classList.remove("show");
+                showToast("Logged out successfully", "success");
             } catch (error) {
                 console.error("Logout error:", error);
+                showToast("Failed to logout", "error");
             }
         }
     });
@@ -1206,7 +1239,7 @@ document.addEventListener("keydown", (e) => {
 
 // ===== INIT =====
 loadPreferences();
-loadWheelFromUrl(); // Load wheel from URL if shared
+loadWheelFromUrl();
 if (wheels.length === 0) {
     createWheel();
 }
