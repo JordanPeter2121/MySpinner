@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MySpinner</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <h1>MySpinner</h1>
+        </div>
+        
+        <nav class="desktop-menu">
+            <button class="menu-btn" id="btnNew">New</button>
+            <button class="menu-btn" id="btnOpen">Open</button>
+            <button class="menu-btn" id="btnSave">Save</button>
+            <button class="menu-btn" id="btnShare">Share</button>
+            
+            <div class="dropdown">
+                <button class="menu-btn more-btn" id="moreBtn">More</button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-item" id="myAccountBtn">
+                        <span>My Account</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="preferencesBtn">
+                        <span>Preferences</span>
+                    </div>
+                    <div class="dropdown-item" id="helpFeedbackBtn">
+                        <span>Help & Feedback</span>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="aboutBtn">
+                        <span>About</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="user-avatar" id="userAvatar" style="display:none;">
+            <img id="userPhoto" src="" alt="User">
+        </div>
+    </header>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+        <div class="mobile-menu">
+            <button class="mobile-menu-close" id="mobileMenuClose">✕</button>
+            <div class="mobile-menu-items">
+                <button class="mobile-menu-item" id="mobileBtnNew">New</button>
+                <button class="mobile-menu-item" id="mobileBtnOpen">Open</button>
+                <button class="mobile-menu-item" id="mobileBtnSave">Save</button>
+                <button class="mobile-menu-item" id="mobileBtnShare">Share</button>
+                <div class="mobile-menu-divider"></div>
+                <button class="mobile-menu-item" id="mobileMyAccount">My Account</button>
+                <button class="mobile-menu-item" id="mobilePreferences">Preferences</button>
+                <button class="mobile-menu-item" id="mobileHelpFeedback">Help & Feedback</button>
+                <button class="mobile-menu-item" id="mobileAbout">About</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="fileInput" accept=".wheel,.json" style="display:none;">
+
+    <main class="main-content" id="wheelsContainer"></main>
+
+    <!-- AUTH MODAL -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal auth-modal">
+            <button class="modal-close-x" id="closeAuth">✕</button>
+            <div class="auth-header">
+                <div class="auth-logo-icon"></div>
+                <h2 id="authTitle">Welcome Back!</h2>
+                <p id="authSubtitle">Sign in to save your wheels</p>
+            </div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-auth="login">Login</button>
+                <button class="auth-tab" data-auth="register">Register</button>
+            </div>
+            <button class="google-btn disabled-btn" disabled>
+                <svg viewBox="0 0 48 48" width="20" height="20">
+                    <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.1 29.2 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"/>
+                    <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 16 19 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C33.9 6.1 29.2 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/>
+                    <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+                    <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2C41.4 36.1 44 30.5 44 24c0-1.3-.1-2.3-.4-3.5z"/>
+                </svg>
+                <span>Google Sign-In (Coming Soon)</span>
+            </button>
+            <div class="auth-divider"><span>or</span></div>
+            <form id="authForm" class="auth-form">
+                <div class="form-group" id="nameGroup" style="display:none;">
+                    <label for="authName">Full Name</label>
+                    <input type="text" id="authName" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="authEmail">Email</label>
+                    <input type="email" id="authEmail" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="authPassword">Password</label>
+                    <input type="password" id="authPassword" placeholder="••••••••" required minlength="6">
+                    <small>Minimum 6 characters</small>
+                </div>
+                <div class="form-error" id="authError"></div>
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span id="submitText">Login</span>
+                    <span class="loader" id="submitLoader" style="display:none;"></span>
+                </button>
+            </form>
+            <p class="auth-footer-text">By continuing, you agree to our <a href="#">Terms</a> & <a href="#">Privacy Policy</a></p>
+        </div>
+    </div>
+
+    <!-- ACCOUNT MODAL -->
+    <div class="modal-overlay" id="accountModal">
+        <div class="modal account-modal">
+            <button class="modal-close-x" id="closeAccount">✕</button>
+            <div class="account-header">
+                <img id="accountPhoto" src="" alt="Photo" class="account-photo">
+                <h2 id="accountName">User Name</h2>
+                <p id="accountEmail">user@email.com</p>
+                <span class="account-badge" id="accountProvider">Email</span>
+            </div>
+            <div class="account-body">
+                <div class="account-stats">
+                    <div class="stat">
+                        <div class="stat-num" id="statWheels">0</div>
+                        <div class="stat-label">Wheels Saved</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-num" id="statSpins">0</div>
+                        <div class="stat-label">Total Spins</div>
+                    </div>
+                </div>
+                <div class="account-menu">
+                    <div class="account-menu-item"><span>My Wheels</span><span>›</span></div>
+                    <div class="account-menu-item"><span>Account Settings</span><span>›</span></div>
+                    <div class="account-menu-item"><span>Notifications</span><span>›</span></div>
+                    <div class="account-menu-item"><span>Appearance</span><span>›</span></div>
+                </div>
+            </div>
+            <div class="account-footer">
+                <button class="logout-btn" id="logoutBtn">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PREFERENCES MODAL -->
+    <div class="modal-overlay" id="preferencesModal">
+        <div class="modal preferences-modal">
+            <button class="modal-close-x" id="closePreferences">✕</button>
+            <div class="preferences-header">
+                <h2>Preferences</h2>
+            </div>
+            <div class="preferences-body">
+                <div class="pref-section">
+                    <div class="pref-label">Application color scheme</div>
+                    <div class="pref-options">
+                        <label class="pref-radio">
+                            <input type="radio" name="colorScheme" value="light" checked>
+                            <span class="radio-icon">☀️</span>
+                            <span class="radio-text">Light</span>
+                        </label>
+                        <label class="pref-radio">
+                            <input type="radio" name="colorScheme" value="system">
+                            <span class="radio-icon">🌓</span>
+                            <span class="radio-text">System</span>
+                        </label>
+                        <label class="pref-radio">
+                            <input type="radio" name="colorScheme" value="dark">
+                            <span class="radio-icon">🌙</span>
+                            <span class="radio-text">Dark</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="pref-section">
+                    <label class="pref-checkbox">
+                        <input type="checkbox" id="showClickToSpin" checked>
+                        <span class="checkbox-icon">☑️</span>
+                        <span class="checkbox-text">Show "Click to spin" text</span>
+                    </label>
+                </div>
+                <div class="pref-section">
+                    <div class="pref-label">Theme for new wheels</div>
+                    <div class="theme-selector">
+                        <div class="theme-preview" id="themePreview"></div>
+                        <select id="themeSelect" class="theme-select">
+                            <option value="Default">Default</option>
+                            <option value="Classic">Classic</option>
+                            <option value="Ukraine">The world stands with Ukraine</option>
+                            <option value="Rainbow">Rainbow</option>
+                            <option value="Unicorn">Unicorn</option>
+                            <option value="Circus">Circus</option>
+                            <option value="Fruit Salad">Fruit Salad</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="preferences-footer">
+                <button class="pref-close-btn" id="prefCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HELP & FEEDBACK MODAL -->
+    <div class="modal-overlay" id="helpFeedbackModal">
+        <div class="modal help-feedback-modal">
+            <button class="modal-close-x" id="closeHelpFeedback">✕</button>
+            <div class="help-feedback-header">
+                <h2>Help & Feedback</h2>
+            </div>
+            <div class="help-feedback-tabs">
+                <button class="hf-tab active" data-hf="help">Help</button>
+                <button class="hf-tab" data-hf="feedback">Feedback</button>
+            </div>
+            <div class="hf-content active" id="helpContent">
+                <div class="help-section">
+                    <div class="help-item"><div class="help-text"><h4>How to Spin</h4><p>Click on the wheel or press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to spin.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Edit Options</h4><p>Type one name per line. Wheel updates automatically.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Add Multiple Wheels</h4><p>Click "Add wheel" to create additional wheels.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Remove vs Continue</h4><p><strong>Remove:</strong> Winner removed from wheel.<br><strong>Continue:</strong> Winner stays.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Shuffle & Sort</h4><p>Randomize or alphabetize your options.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Change Theme</h4><p>Go to <strong>Preferences</strong> → <strong>Theme for new wheels</strong>.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Dark Mode</h4><p>Go to <strong>Preferences</strong> → <strong>Color scheme</strong>.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Keyboard Shortcuts</h4><p><kbd>Ctrl</kbd> + <kbd>Enter</kbd> — Spin the wheel</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Mobile Usage</h4><p>Tap the hamburger menu for all features.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Save & Open Wheels</h4><p><strong>Save:</strong> Export wheel as .wheel file.<br><strong>Open:</strong> Import .wheel file from device.<br><strong>New:</strong> Create a fresh wheel.</p></div></div>
+                    <div class="help-item"><div class="help-text"><h4>Share Wheels</h4><p><strong>Share:</strong> Generate a link with your wheel data. Anyone who opens the link will see the same wheel. Perfect for sharing with friends!</p></div></div>
+                </div>
+            </div>
+            <div class="hf-content" id="feedbackContent">
+                <div class="feedback-section">
+                    <div class="feedback-icon">💬</div>
+                    <h3>We'd love to hear from you!</h3>
+                    <p class="feedback-desc">Your feedback helps us improve MySpinner.</p>
+                    <div class="feedback-options">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLScmI-po6J_rklHYwwsYaqBYFJ0GRHP_iTtMy_mN-I8agstp2w/viewform?usp=dialog" target="_blank" rel="noopener" class="feedback-btn primary">
+                            <span>Open Feedback Form</span>
+                        </a>
+                    </div>
+                    <div class="feedback-info">
+                        <h4>What to include:</h4>
+                        <ul>
+                            <li>Feature requests</li>
+                            <li>Bug reports</li>
+                            <li>Design suggestions</li>
+                            <li>General thoughts</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="help-feedback-footer">
+                <button class="hf-close-btn" id="hfCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT MODAL -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal about-modal">
+            <button class="modal-close-x" id="closeAbout">✕</button>
+            <div class="about-header">
+                <div class="about-logo"></div>
+                <h2>MySpinner</h2>
+                <div class="version-badge">v1.0.0</div>
+                <p class="about-tagline">Make decisions fun and fair!</p>
+            </div>
+            <div class="about-body">
+                <div class="about-description">
+                    <p>MySpinner is a beautiful, interactive wheel spinner that helps you make random decisions with style. Perfect for choosing meals, picking winners, or letting fate decide!</p>
+                </div>
+                <div class="about-section">
+                    <h3>Key Features</h3>
+                    <div class="features-list">
+                        <div class="feature-item"><span>Interactive spinning wheel with smooth animations</span></div>
+                        <div class="feature-item"><span>Create unlimited wheels at once</span></div>
+                        <div class="feature-item"><span>7 beautiful color themes to choose from</span></div>
+                        <div class="feature-item"><span>Light, Dark, and System color modes</span></div>
+                        <div class="feature-item"><span>Save & load wheels as .wheel files</span></div>
+                        <div class="feature-item"><span>Share wheels via link with friends</span></div>
+                        <div class="feature-item"><span>Realistic tick sounds while spinning</span></div>
+                        <div class="feature-item"><span>Fully responsive for mobile & desktop</span></div>
+                        <div class="feature-item"><span>Secure login with Firebase Authentication</span></div>
+                    </div>
+                </div>
+                <div class="about-section">
+                    <h3>Built With</h3>
+                    <div class="tech-stack">
+                        <span class="tech-badge html">HTML5</span>
+                        <span class="tech-badge css">CSS3</span>
+                        <span class="tech-badge js">JavaScript</span>
+                        <span class="tech-badge firebase">Firebase</span>
+                    </div>
+                </div>
+                <div class="about-section credits-section">
+                    <h3>Developer</h3>
+                    <div class="credits-card">
+                        <div class="credits-avatar">J</div>
+                        <div class="credits-info">
+                            <div class="credits-name">Jojo</div>
+                            <div class="credits-role">Full Stack Developer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-footer">
+                <div class="copyright">
+                    <p>© 2026 MySpinner. All rights reserved.</p>
+                    <p class="made-with">Made with <span class="heart">❤️</span> by Jojo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHARE MODAL -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal share-modal">
+            <button class="modal-close-x" id="closeShare">✕</button>
+            <div class="share-header">
+                <div class="share-icon">🔗</div>
+                <h2>Share Wheel</h2>
+                <p>Send this link to anyone to share your wheel</p>
+            </div>
+            <div class="share-body">
+                <div class="share-link-box">
+                    <input type="text" id="shareLinkInput" readonly>
+                    <button class="copy-link-btn" id="copyLinkBtn">Copy</button>
+                </div>
+                <div class="share-info">
+                    <p>Anyone with this link can open the same wheel in their browser.</p>
+                </div>
+                <div class="share-actions">
+                    <button class="share-action-btn" id="shareViaWeb">
+                        <span class="share-action-icon">📤</span>
+                        <span>Share via...</span>
+                    </button>
+                    <button class="share-action-btn" id="shareViaWhatsApp">
+                        <span class="share-action-icon">💬</span>
+                        <span>WhatsApp</span>
+                    </button>
+                    <button class="share-action-btn" id="shareViaEmail">
+                        <span class="share-action-icon">✉️</span>
+                        <span>Email</span>
+                    </button>
+                </div>
+            </div>
+            <div class="share-footer">
+                <button class="share-close-btn" id="shareCloseBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SAVE FILE MODAL -->
+    <div class="modal-overlay" id="saveModal">
+        <div class="modal save-modal">
+            <button class="modal-close-x" id="closeSave">✕</button>
+            <div class="save-header">
+                <div class="save-icon">💾</div>
+                <h2>Save Wheel</h2>
+                <p>Enter a name for your wheel file</p>
+            </div>
+            <div class="save-body">
+                <div class="form-group">
+                    <label for="saveFileName">File Name</label>
+                    <input type="text" id="saveFileName" placeholder="my-wheel" autocomplete="off">
+                    <small class="file-extension">.wheel</small>
+                </div>
+                <div class="save-info">
+                    <p>File will be saved to your device's Downloads folder</p>
+                    <p>Format: <strong>.wheel</strong> (JSON)</p>
+                </div>
+                <div class="form-error" id="saveError"></div>
+            </div>
+            <div class="save-footer">
+                <button class="save-cancel-btn" id="saveCancelBtn">Cancel</button>
+                <button class="save-confirm-btn" id="saveConfirmBtn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW WHEEL MODAL -->
+    <div class="modal-overlay" id="newWheelModal">
+        <div class="modal new-wheel-modal">
+            <button class="modal-close-x" id="closeNewWheel">✕</button>
+            <div class="new-wheel-header">
+                <div class="new-wheel-icon">📄</div>
+                <h2>Create New Wheel</h2>
+                <p>Choose how you want to start</p>
+            </div>
+            <div class="new-wheel-body">
+                <button class="new-wheel-option" id="newEmpty">
+                    <div class="option-icon">📭</div>
+                    <div class="option-text">
+                        <strong>Empty Wheel</strong>
+                        <span>Start with no options</span>
+                    </div>
+                </button>
+                <button class="new-wheel-option" id="newDefault">
+                    <div class="option-icon">🎲</div>
+                    <div class="option-text">
+                        <strong>Default Wheel</strong>
+                        <span>Start with sample options</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- WINNER MODAL -->
+    <div class="winner-modal" id="winnerModal">
+        <div class="modal-content">
+            <div class="confetti"></div>
+            <h2>Winner!</h2>
+            <div class="winner-name" id="winnerName">-</div>
+            <div class="winner-actions">
+                <button class="winner-btn remove-btn" id="removeWinnerBtn">
+                    <span>Remove</span>
+                </button>
+                <button class="winner-btn continue-btn" id="continueBtn">
+                    <span>Continue</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
